@@ -79,3 +79,6 @@ class AVLTree:
         node.height = 1 + max(self._get_height(node.left), self._get_height(node.right))
         new_root.height = 1 + max(self._get_height(new_root.left), self._get_height(new_root.right))
         return new_root
+
+    def clear(self):
+        self.root = None

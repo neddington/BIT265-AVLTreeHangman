@@ -2,6 +2,7 @@ import tkinter as tk
 import random
 from avl_tree import AVLTree
 
+
 # Hardcoded list of words to choose from
 words = ["apple", "banana", "cherry", "durian", "elderberry", "cheese"]
 
@@ -30,6 +31,10 @@ class WordGuessingGame:
         self.word_state = ["_" for _ in range(len(self.word))]  # List to keep track of revealed letters
         self.guesses = set()  # Set to keep track of all guesses (for displaying at end)
         self.remaining_guesses = 6  # Number of incorrect guesses before losing
+        # Create reset button
+
+        self.reset_button = None
+
         self.setup_ui()
 
     def setup_ui(self):
@@ -48,6 +53,7 @@ class WordGuessingGame:
         self.hangman_label.pack()
         self.hangman_image = tk.Label(self.master, text="")
         self.hangman_image.pack()
+        self.reset_button = tk.Button(self.master, text="New Game", command=self.reset_game, state=tk.DISABLED)
 
     def make_guess(self, letter):
         # Check if the letter has already been guessed
@@ -94,6 +100,8 @@ class WordGuessingGame:
         solution_label.pack()
         guesses_label = tk.Label(self.master, text=f"Your guesses: {', '.join(self.guesses)}")
         guesses_label.pack()
+        self.reset_button.pack()
+        self.reset_button.config(state=tk.NORMAL)
         for btn in self.buttons_frame.winfo_children():
             btn.config(state=tk.DISABLED)
         if win:
@@ -114,8 +122,31 @@ class WordGuessingGame:
                 revealed_word += "_ "
         self.word_label.config(text=revealed_word)
 
+    def reset_game(self):
+        self.avl_tree = AVLTree()
+        self.word = random.choice(words)
+        self.word_state = ["_" for _ in range(len(self.word))]
+        self.guesses = set()
+        self.remaining_guesses = 6
+        # update the text of the labels to their initial values
+        self.word_label.config(text=" ".join(self.word_state))
+        self.guess_label.config(text=f"Remaining guesses: {self.remaining_guesses}")
+        self.hangman_label.config(text="\n".join(hangman[:0]))
+        self.hangman_image.config(text="")
+        # re-enable the buttons
+        for btn in self.buttons_frame.winfo_children():
+            btn.config(state=tk.NORMAL)
+        self.reset_button.config(state=tk.DISABLED)
+        self.reset_button.pack_forget()
+        # remove the labels that were added at the end of the previous game
+        for child in self.master.winfo_children():
+            if isinstance(child, tk.Label) and child not in [self.word_label, self.guess_label, self.hangman_label,
+                                                             self.hangman_image]:
+                child.destroy()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root.geometry("1200x350")
     game = WordGuessingGame(root)
     root.mainloop()
