@@ -2,7 +2,6 @@ import tkinter as tk
 import random
 from avl_tree import AVLTree
 
-
 # Hardcoded list of words to choose from
 words = ["apple", "banana", "cherry", "durian", "elderberry", "cheese"]
 
@@ -17,6 +16,12 @@ hangman = [
     "========="
 ]
 
+
+# As instructed - Including comment mentioned the AVL Tree is being used for the Guesses.
+# Each Guess is recorded in the AVL tree whenever the user clicks on a letter.
+# This AVL Tree is then used to make sure that the user isn't able to select the same letter again.
+# As discussed this likely would have been better implemented as a hash table rather than an AVL Tree but an
+# AVL Tree was used just for demonstration purposes
 
 class WordGuessingGame:
     def __init__(self, master):
