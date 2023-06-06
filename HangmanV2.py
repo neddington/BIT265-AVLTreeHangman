@@ -2,6 +2,10 @@ import tkinter as tk
 import random
 from avl_tree import AVLTree
 
+# I didn’t use any particular references to go look up and research what a AVLTree was and just utilized the instruction you gave in class.
+# The only assistance/resources I had and utilized really was ChatGPT to help iron out the bugs and help determine a platform to build it on.
+
+
 # Hardcoded list of words to choose from
 words = ["apple", "banana", "cherry", "durian", "elderberry", "cheese"]
 
